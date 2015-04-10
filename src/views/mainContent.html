@@ -1,0 +1,60 @@
+<div layout="row">
+  <md-toolbar class="" layout="row">
+    <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show dataset List">
+      <md-icon md-svg-icon="menu" ></md-icon>
+    </md-button>
+    <h1>Open Data</h1>
+  </md-toolbar>
+</div>
+
+<div layout="row" id="contentRow" flex>
+  <md-content id="content" flex>
+
+    <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
+    <h2>{{ul.selected.name}}</h2>
+
+    <div id="" flex>
+
+    <div layout="row">
+
+      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[0].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[0].typeValue)}" class="chartButtons"><span>Line</span></div>
+      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[1].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[1].typeValue)}" class="chartButtons"><span>Bar</span></div>
+      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[2].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[2].typeValue)}" class="chartButtons"><span>Column</span></div>
+      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[3].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[3].typeValue)}" class="chartButtons"><span>Pie</span></div>
+
+      <!--<ul class="unstyledCharts">
+        <li>Line</li>
+        <li>Bar</li>
+        <li>Column</li>
+        <li>Pie</li>
+      </ul>-->
+    </div>
+    <br><br>
+    <div layout="row" id="chartdiv" g-chart flex></div>
+
+    </div>
+    <br><br>
+
+    <div id="sectorButton" layout="row" layout-align="center center">
+      <md-button enter leave class="" ng-click="ul.decParams()" aria-label="Profile">
+            <md-icon md-svg-src="./assets/svg/ic_chevron_left_24px.svg"></md-icon>
+      </md-button>
+
+      <div id="sector">{{ul.sector}}</div>
+
+      <md-button enter leave class="" ng-click="ul.incParams()" aria-label="Profile">
+            <md-icon md-svg-src="./assets/svg/ic_chevron_right_24px.svg"></md-icon>
+      </md-button>
+
+    </div>
+
+
+
+
+
+
+    <md-button class="share" md-no-ink ng-click="ul.share($event)" aria-label="Share">
+      <md-icon md-svg-icon="share"></md-icon>
+    </md-button>
+  </md-content>
+</div>

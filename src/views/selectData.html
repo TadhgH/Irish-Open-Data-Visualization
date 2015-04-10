@@ -1,0 +1,41 @@
+<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left" flex>
+
+  <!--<md-toolbar class="mainBarLeft md-whiteframe-z1">
+    <h1 class="my-left">
+      Datasets
+    </h1>
+  </md-toolbar>-->
+  <div class="listOne">
+    <md-toolbar class="mainBarLeft divide">
+      <h1 class="md-toolbar-tools">
+        <span>Datasets</span>
+      </h1>
+    </md-toolbar>
+
+    <md-list class="datasets">
+      <md-item ng-repeat="it in ul.datasets[0].One">
+          <md-button ng-click="ul.isDatasetOne(it)" ng-class="{'selected' : it === ul.selected }">
+            {{it.name}}
+          </md-button>
+      </md-item>
+    </md-list>
+  </div>
+
+  <div class="listTwo">
+    <md-toolbar class="md-theme-light divide">
+      <h1 class="md-toolbar-tools">
+        <span>Mapping</span>
+      </h1>
+    </md-toolbar>
+
+    <md-list class="datasets">
+      <md-item ng-repeat="it in ul.datasets[0].Two">
+          <md-button ng-click="ul.isDatasetTwo(it)" ng-class="{'selected' : it === ul.selected }">
+            {{it.name}}
+          </md-button>
+      </md-item>
+    </md-list>
+  </div>
+
+
+</md-sidenav>
