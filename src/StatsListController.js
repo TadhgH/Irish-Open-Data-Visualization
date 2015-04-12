@@ -179,8 +179,6 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     var j = 0;
     var x = 0;
     var num = 0;
-    var highCheck = false;
-    var lowCheck = false;
     var yearData = [];
     var tempData = [];
     var master = [];
@@ -197,12 +195,12 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     for(j=0; j<data[0].length-1; j++){
       if(data[0][j+1].indexOf('Average')>-1 || data[0][j+1].indexOf('Mean')>-1){
         avgs.push(j);
-      } else if(data[0][j+1].indexOf('Highest')>-1){
+      } else if(data[0][j+1].indexOf('Highest')>-1 || data[0][j+1].indexOf('Most')>-1){
         highs.push(j);
-        tempData[j] = -10000000000;
+        tempData[j] = -99999999999;
       } else if(data[0][j+1].indexOf('Lowest')>-1){
         lows.push(j);
-        tempData[j] = 10000000000;
+        tempData[j] = 99999999999;
       }
     }
     console.log(tempData);
@@ -212,7 +210,6 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
 
       if(data[i][0].indexOf(year[x]) > -1){
         for(j=0; j<data[i].length-1; j++){
-
           //if j is in highs.add value to temp.add temp to tempData.clear temp.
           if(highs.indexOf(j)>-1){
             if(data[i][j+1] > tempData[j]){
@@ -227,8 +224,6 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
           }
         }
         console.log(tempData);
-        highCheck = false;
-        lowCheck = false;
 
         /*
         loop through data
@@ -366,7 +361,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     function StatSheetController( $mdBottomSheet ) {
       this.dataset = dataset;
       this.items = [
-        { name: 'Phone'       , icon: 'phone'       },
+        { name: 'Email'       , icon: 'mail'        },
         { name: 'Twitter'     , icon: 'twitter'     },
         { name: 'Google+'     , icon: 'google_plus' },
         { name: 'Hangout'     , icon: 'hangouts'    }
