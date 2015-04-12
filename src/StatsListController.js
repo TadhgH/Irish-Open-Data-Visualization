@@ -153,7 +153,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
         console.log(final[i-1]);
         self.masterset.merge[i] = self.masterset.merge[i].concat(final[i-1]);
       }*/
-
+      console.log(final);
     }
 
     setMasterset(final, data.ds);
@@ -179,37 +179,56 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     var j = 0;
     var x = 0;
     var num = 0;
+    var highCheck = false;
+    var lowCheck = false;
     var yearData = [];
     var tempData = [];
     var master = [];
     var avgs = [];
     var highs = [];
     var lows = [];
-    var tempHigh = [];
-    var tempLow = [];
+    var tempAvgs = [];
+    var tempHighs = [];
+    var tempLows = [];
 
-    console.log(data);
     master.push(data[0]);
-    tempData = Array.apply(null, new Array(data[i].length-1)).map(Number.prototype.valueOf,0);
+    tempData = Array.apply(null, new Array(data[0].length-1)).map(Number.prototype.valueOf,0);
 
     for(j=0; j<data[0].length-1; j++){
       if(data[0][j+1].indexOf('Average')>-1 || data[0][j+1].indexOf('Mean')>-1){
         avgs.push(j);
       } else if(data[0][j+1].indexOf('Highest')>-1){
         highs.push(j);
+        tempData[j] = -10000000000;
       } else if(data[0][j+1].indexOf('Lowest')>-1){
         lows.push(j);
+        tempData[j] = 10000000000;
       }
     }
-
+    console.log(tempData);
+    console.log(data);
     //shud go through this array backwards then reverse result
     for(i=0;i<data.length;i++){
+
       if(data[i][0].indexOf(year[x]) > -1){
         for(j=0; j<data[i].length-1; j++){
 
-          tempData[j] += data[i][j+1];
-
+          //if j is in highs.add value to temp.add temp to tempData.clear temp.
+          if(highs.indexOf(j)>-1){
+            if(data[i][j+1] > tempData[j]){
+              tempData[j] = data[i][j+1];
+            }
+          } else if(lows.indexOf(j)>-1){
+            if(data[i][j+1] < tempData[j]){
+              tempData[j] =  data[i][j+1];
+            }
+          }else{
+            tempData[j] += data[i][j+1];
+          }
         }
+        console.log(tempData);
+        highCheck = false;
+        lowCheck = false;
 
         /*
         loop through data
@@ -221,27 +240,42 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
         };
         */
 
+        //calcs here wrong
+
         if(i > 0 && i % 12 == 0){
           yearData.push(year[x]);
-          console.log(tempData);
           for(j=0; j<tempData.length; j++){
-            if(avgs.indexOf(j) > -1){
+            if(avgs.indexOf(j)>-1){
               yearData.push(tempData[j]/12);
             } else {
               yearData.push(tempData[j]);
             }
           }
-          console.log(yearData);
           x++;
           master.push(yearData);
           yearData = [];
-          tempData = Array.apply(null, new Array(data[i].length-1)).map(Number.prototype.valueOf,0);
+          //tempData = Array.apply(null, new Array(data[0].length-1)).map(Number.prototype.valueOf,0);
+          tempData = Array.apply(null, new Array(data[0].length-1)).map(Number.prototype.valueOf,0);
         }
       }
     }
 
     return master;
   }
+
+  /*else if(highs.indexOf(j)>-1){
+      var sum=0;
+      var i=tempData[j].length;
+      while(i--)sum += tempData[j][i];
+      tempData[j] = sum/tempData[j].length;
+      yearData.push(tempData[j]);
+  } else if(lows.indexOf(j)>-1){
+      var sum=0;
+      var i=tempData[j].length;
+      while(i--)sum += tempData[j][i];
+      tempData[j] = sum/tempData[j].length;
+      yearData.push(tempData[j]);
+  }*/
 
   function colorPick(data){
     var array = [];
