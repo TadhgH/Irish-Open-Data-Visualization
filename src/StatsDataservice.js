@@ -39,7 +39,8 @@
         num: 0,
         xaxis: 'year',
         content: "Raw denim pour-over readymade Etsy Pitchfork. Four dollar toast pickled locavore bitters McSweeney's blog. Try-hard art party Shoreditch selfies. Odd Future butcher VHS, disrupt pop-up Thundercats chillwave vinyl jean shorts taxidermy master cleanse letterpress Wes Anderson mustache Helvetica. Schlitz bicycle rights chillwave irony lumbersexual Kickstarter next level sriracha typewriter Intelligentsia, migas kogi heirloom tousled. Disrupt 3 wolf moon lomo four loko. Pug mlkshk fanny pack literally hoodie bespoke, put a bird on it Marfa messenger bag kogi VHS."
-      },{
+      },
+      {
         name: 'Rainfall',
         avatar: 'svg-1',
         addr: 'http://www.cso.ie/StatbankServices/StatbankServices.svc/jsonservice/responseinstance/MTM01',

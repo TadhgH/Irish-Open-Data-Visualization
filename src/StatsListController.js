@@ -7,7 +7,6 @@ StatsListController]);
 function StatsListController(menuData, statData, sortData, color, $mdSidenav, $mdBottomSheet, $log){
   var self = this;
 
-
   self.selected = null;
   self.One = null;
   self.Two = null;
@@ -27,7 +26,9 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
   self.isDatasetTwo = isDatasetTwo;
   self.activeType = 'chartButtons';
   self.masterset = {};
-  self.masterset.array = [];
+  self.masterset.final = [];
+  self.masterset.base = [];
+  self.masterset.merge = [];
   self.masterset.dataset = {};
   self.masterset.option = {};
   self.masterset.colors = {};
@@ -111,6 +112,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     var colorPicker = [];
     var colors = [];
     var years = [];
+    var i = 0;
     /*if(self.checkSet == true){
       self.masterset.dataset = data;
     } else {
@@ -132,15 +134,26 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     master.splice(master.length, 1);
     final.push(master);
 
-    for (var i = 0; i < sectoredStats.length; i++) {
+    for (i = 0; i < sectoredStats.length; i++) {
       final.push(sectoredStats[i]);
     }
 
     if(self.selected.xaxis == 'year'){
       self.masterset.t = data.t;
-      console.log(self.masterset.t);
+      //self.masterset.base = final;
+
     } else if(self.selected.xaxis == 'month'){
       final = yearify(final, self.masterset.t);
+
+      //self.masterset.merge = self.masterset.base;
+
+      //self.masterset.merge[0] = self.masterset.merge[0].concat(_.drop(data.mast));
+
+      /*for(i = 1; i < self.masterset.merge.length; i++){
+        console.log(final[i-1]);
+        self.masterset.merge[i] = self.masterset.merge[i].concat(final[i-1]);
+      }*/
+
     }
 
     setMasterset(final, data.ds);
@@ -148,63 +161,86 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
   }
 
   function setMasterset(final, d){
-    self.masterset.array = final;
     self.masterset.option = d;
 
     if(self.checkSet == true){
       self.masterset.colors = colorPick(final);
-      chartBoilerPlate(self.masterset.array, self.masterset.option, self.masterset.colors);
+      chartBoilerPlate(final, self.masterset.option, self.masterset.colors);
     } else {
       self.masterset.colors = colorPick(final);
-      chartBoilerPlate(self.masterset.array, self.masterset.option, self.masterset.colors);
+      chartBoilerPlate(final, self.masterset.option, self.masterset.colors);
     }
   }
 
   function yearify(data, year){
-    console.log(self.selected.xaxis);
-    //console.log(data);
 
     //var t0 = performance.now();
     var i = 0;
+    var j = 0;
     var x = 0;
-    var tempYear = '';
+    var num = 0;
+    var yearData = [];
+    var tempData = [];
+    var master = [];
+    var avgs = [];
+    var highs = [];
+    var lows = [];
+    var tempHigh = [];
+    var tempLow = [];
+
+    console.log(data);
+    master.push(data[0]);
+    tempData = Array.apply(null, new Array(data[i].length-1)).map(Number.prototype.valueOf,0);
+
+    for(j=0; j<data[0].length-1; j++){
+      if(data[0][j+1].indexOf('Average')>-1 || data[0][j+1].indexOf('Mean')>-1){
+        avgs.push(j);
+      } else if(data[0][j+1].indexOf('Highest')>-1){
+        highs.push(j);
+      } else if(data[0][j+1].indexOf('Lowest')>-1){
+        lows.push(j);
+      }
+    }
 
     //shud go through this array backwards then reverse result
     for(i=0;i<data.length;i++){
-
-      //tempYear = year[x];
-      //console.log(year[0+x]);
-      //console.log(data[i][0].indexOf(year[0+x]));
       if(data[i][0].indexOf(year[x]) > -1){
-        console.log(data[i][0]);
+        for(j=0; j<data[i].length-1; j++){
+
+          tempData[j] += data[i][j+1];
+
+        }
+
+        /*
+        loop through data
+        if normal value add it
+        if high store in array
+        after for loop
+        Array.max = function( array ){
+            return Math.max.apply( Math, array );
+        };
+        */
 
         if(i > 0 && i % 12 == 0){
+          yearData.push(year[x]);
+          console.log(tempData);
+          for(j=0; j<tempData.length; j++){
+            if(avgs.indexOf(j) > -1){
+              yearData.push(tempData[j]/12);
+            } else {
+              yearData.push(tempData[j]);
+            }
+          }
+          console.log(yearData);
           x++;
+          master.push(yearData);
+          yearData = [];
+          tempData = Array.apply(null, new Array(data[i].length-1)).map(Number.prototype.valueOf,0);
         }
       }
-
-
     }
 
-    /*_.forEach(data, function(n){
-
-      if(n[0].indexOf(year[i]) > -1){
-        console.log(year[x]);
-      }
-
-      if(i<11){
-        i++;
-      } else {
-        x++;
-        i = 0;
-      }
-      console.log(year[x]);
-    });*/
-
-    //var t1 = performance.now();
-
-    //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
-    return data;
+    return master;
   }
 
   function colorPick(data){
