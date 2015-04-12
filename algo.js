@@ -4,7 +4,6 @@ var jStat = require('jsonstat'),
 var sortSect = function(arrays, x, time){
   var temp = [];
   var master = [];
-  console.log(arrays.length);
   for(i = 0; i < arrays.length; i++){
     for (var j = x; j < time.length; j++) {
       temp.push(arrays[i][j]);
@@ -48,10 +47,6 @@ var sortStat = function(mult, dataLen, ds, dimLen){
 }
 
 var getStats = function(data){
-  console.log(" ");
-  console.log("getStats");
-  console.log("--------");
-  console.log(" ");
   var master = [];
   var ds = data.Dataset(0);
   var t = ds.id[ds.id.length-2];//change everything to lodash
@@ -63,7 +58,6 @@ var getStats = function(data){
   var time = [];
   var temp = [];
   var sectors = [];
-  console.log(ds.Dimension(0).Category(0).label);
 
   _.forIn(ds.Dimension(0).Category(), function(n){
     sectors.push(n.label);
@@ -74,7 +68,7 @@ var getStats = function(data){
   _.forIn(arrays.labels, function(n){
     col.push(n);
   });
-  console.log(col);
+
   master = col;
 
   _.forIn(getTime, function(n){
@@ -82,8 +76,7 @@ var getStats = function(data){
   });
 
   var size = ds.Dimension(0).Category().length;
-  //var temp = sortSect(arrays.nums, 0, time);
-  console.log(typeof arrays.nums[0][0]);
+
   var sendData = {
     mast:master,
     nums:arrays.nums,
@@ -109,14 +102,8 @@ var algo = function(set, i){
 }
 
 var assimilate = function(data){
-  //var t0 = performance.now();
-  console.log(" ");
-  console.log("Assimilate");
-  console.log("--------");
 
   var master = getStats(data);
-  //var t1 = performance.now();
-  //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
   return master;
 }
 

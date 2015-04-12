@@ -16,10 +16,7 @@ var file = {};
 function dataRequest(addr, res){
   request(addr, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log("yo");
-      //json=JSON.parse(response.body);
       data=JSONstat(JSON.parse(response.body));
-      console.log(data);
       res.setHeader('Content-Type', 'application/json');
       res.send(al(data));
       //return response;
@@ -55,7 +52,6 @@ app.post('/api/todos', function(req, res) {
 
 // application -------------------------------------------------------------
 app.get('*', function(req, res) {
-    console.log("in");
     //res.writeHead(200, {'Content-Type':'text/html'});
     res.set('Content-Type', 'text/html');
     res.sendFile(__dirname + '/index.html'); // load the single view file (angular will handle the page changes on the front-end)
