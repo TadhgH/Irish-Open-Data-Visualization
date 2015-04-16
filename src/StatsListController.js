@@ -4,7 +4,7 @@
 angular.module('stats').controller('StatsListController', ['menuData', 'statData', 'sortData', 'color', '$mdSidenav', '$mdBottomSheet', '$log',
 StatsListController]);
 
-function StatsListController(menuData, statData, sortData, color, $mdSidenav, $mdBottomSheet, $log){
+function StatsListController(menuData, statData, sortData, color, $mdSidenav, $mdBottomSheet, $log, emailService){
   var self = this;
 
   self.selected = null;
@@ -33,6 +33,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
   self.masterset.option = {};
   self.masterset.colors = {};
   self.masterset.t = [];
+  self.showList = true;
   //self.chartBoilerPlate = chartBoilerPlate;
   //self.createChart = createChart;
   self.chartType = {};
@@ -341,13 +342,13 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
   /**
   * Show the bottom sheet
   */
-  function share($event){
+  function share($event, emailService){
     var dataset = self.selected;
 
     $mdBottomSheet.show({
       parent: angular.element(document.getElementById('contentRow')),
       templateUrl: 'src/views/contactSheet.html',
-      controller: [ '$mdBottomSheet', StatSheetController],
+      controller: [ '$mdBottomSheet', 'emailService', StatSheetController],
       controllerAs: "vm",
       bindToController : true,
       targetEvent: $event
@@ -358,17 +359,34 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
     /**
      * Bottom Sheet controller for the Avatar Actions
      */
-    function StatSheetController( $mdBottomSheet ) {
+    function StatSheetController($mdBottomSheet, emailService) {
       this.dataset = dataset;
+      this.emailData = {};
+      this.showList = true;
+      this.showEmail = false;
       this.items = [
-        { name: 'Email'       , icon: 'mail'        },
-        { name: 'Twitter'     , icon: 'twitter'     },
-        { name: 'Google+'     , icon: 'google_plus' },
-        { name: 'Hangout'     , icon: 'hangouts'    }
+        { name: 'Email'       , icon: 'mail'},
+        { name: 'About'     , icon: 'about' }
       ];
       this.performAction = function(action) {
-        $mdBottomSheet.hide(action);
+        console.log("action");
+        console.log(action);
+        if(action.name == "Email"){
+          this.showList = false;
+          this.showEmail = true;
+        } else if(action.name == "About"){
+          this.showList = false;
+
+        } else {
+          $mdBottomSheet.hide(action);
+        }
       };
+
+      this.sendEmail = function(){
+        console.log("emailData");
+        console.log(this.emailData);
+        emailService.postEmail(this.emailData);
+      }
     }
   }
 

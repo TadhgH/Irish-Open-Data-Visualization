@@ -272,3 +272,13 @@ span.name {
   font-size:1.1em;
   padding-left:5px;
 }
+
+.emailContent{
+  width: 65%;
+}
+
+#emCnt{
+  width: 25%;
+  float: right;
+  text-align: center;
+}

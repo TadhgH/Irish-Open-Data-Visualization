@@ -91,7 +91,6 @@ var getStats = function(data){
 
 var algo = function(set, i){
   //console.log(set);
-
   var b = set[0];
   var c = set[set.length-i];
 

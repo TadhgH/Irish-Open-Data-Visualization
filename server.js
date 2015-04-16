@@ -3,7 +3,7 @@ var express = require('express'),
     http = require('http'),
     fs = require('fs'),
     bodyParser = require('body-parser'),
-    underscore = require('lodash'),
+    nodemailer = require("nodemailer"),
     JSONstat = require('jsonstat'),
     _ = require('lodash'),
     al = require('./algo.js'),
@@ -23,8 +23,6 @@ function dataRequest(addr, res){
     }
   });
 }
-
-//JSONstat(res);
 
 app.use('/src', express.static(__dirname + '/src'));
 app.use('/assets',express.static(__dirname + '/assets'));               // set the static files location /public/img will be /img for users
@@ -48,6 +46,27 @@ app.post('/api/todos', function(req, res) {
     //var temp = fs.readFileSync('environmentGreenhouse.json', 'utf8');
     //console.log(addr);
     /**/
+});
+
+app.post('/api/email',function(req,res){
+  console.log("Email");
+  var mailOptions={
+  from : req.body.from,
+  to : req.body.to,
+  subject : req.body.subject,
+  text : req.body.content
+  }
+  console.log(mailOptions);
+
+  smtpTransport.sendMail(mailOptions, function(error, response){
+  if(error){
+  console.log(error);
+  res.end("error");
+  }else{
+  console.log("Message sent: " + response.message);
+  res.end("sent");
+  }
+  });
 });
 
 // application -------------------------------------------------------------

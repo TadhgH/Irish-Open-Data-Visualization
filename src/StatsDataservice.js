@@ -5,6 +5,7 @@
   angular.module('stats').service('statData', ['$http', '$q', requestDataservice]);
   angular.module('stats').service('sortData', [sortDataService]);
   angular.module('stats').service('color', [colorService]);
+  angular.module('stats').service('emailService', ['$http', emailService]);
 
   function MenuDataservice($q){
 
@@ -227,6 +228,27 @@
       }*/
 
       return colray;
+    }
+  }
+
+  function emailService($http){
+    var email = this;
+    var api = '/api/email';
+
+    email.postEmail = function(emailData){
+      console.log("service");
+      console.log(emailData);
+      $http.post(api, emailData).success(function(data){
+        console.log(data);
+        if (!data.success) {
+           // if not successful, bind errors to error variables
+           //$scope.errorName = data.errors.name;
+           //$scope.errorSuperhero = data.errors.superheroAlias;
+         } else {
+           // if successful, bind success message to message
+           //$scope.message = data.message;
+         }
+      });
     }
   }
 
