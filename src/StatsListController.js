@@ -1,10 +1,10 @@
 (function(){
 'use strict';
 
-angular.module('stats').controller('StatsListController', ['menuData', 'statData', 'sortData', 'color', '$mdSidenav', '$mdBottomSheet', '$log',
+angular.module('stats').controller('StatsListController', ['md5', 'menuData', 'statData', 'sortData', 'color', '$mdSidenav', '$mdBottomSheet', '$log',
 StatsListController]);
 
-function StatsListController(menuData, statData, sortData, color, $mdSidenav, $mdBottomSheet, $log, emailService){
+function StatsListController(md5, menuData, statData, sortData, color, $mdSidenav, $mdBottomSheet, $log, emailService){
   var self = this;
 
   self.selected = null;
@@ -61,7 +61,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
   self.selected = user[0].One[0];
   getStats(self.selected.addr);
 
-
+  //console.log(md5("message"));
   // *********************************
   // Internal methods
   // *********************************
@@ -288,7 +288,8 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
 
     var options = {
       title: option,
-      colors: colors
+      colors: colors,
+      height: 350
     };
     var chart = {};
     chart.data = data;
@@ -364,6 +365,7 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
       this.emailData = {};
       this.showList = true;
       this.showEmail = false;
+      this.showAbout = false;
       this.items = [
         { name: 'Email'       , icon: 'mail'},
         { name: 'About'     , icon: 'about' }
@@ -374,9 +376,11 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
         if(action.name == "Email"){
           this.showList = false;
           this.showEmail = true;
+          this.showAbout = false;
         } else if(action.name == "About"){
           this.showList = false;
-
+          this.showEmail = false;
+          this.showAbout = true;
         } else {
           $mdBottomSheet.hide(action);
         }
@@ -385,7 +389,14 @@ function StatsListController(menuData, statData, sortData, color, $mdSidenav, $m
       this.sendEmail = function(){
         console.log("emailData");
         console.log(this.emailData);
+        this.emailData.secret = md5.createHash("heptameron");
         emailService.postEmail(this.emailData);
+      }
+
+      this.resetBottomSheet = function(){
+        this.showList = true;
+        this.showEmail = false;
+        this.showAbout = false;
       }
     }
   }

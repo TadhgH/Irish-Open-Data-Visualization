@@ -106,7 +106,7 @@
   function requestDataservice($http, $q){
 
     var stat = this;
-    var api = '/api/todos';
+    var api = '/api/data';
 
     stat.getStats = function(address){
       var defer = $q.defer();
@@ -238,15 +238,14 @@
     email.postEmail = function(emailData){
       console.log("service");
       console.log(emailData);
+      //add md5 secret
       $http.post(api, emailData).success(function(data){
-        console.log(data);
-        if (!data.success) {
+        if(!data.success) {
+           console.log(data);
            // if not successful, bind errors to error variables
-           //$scope.errorName = data.errors.name;
-           //$scope.errorSuperhero = data.errors.superheroAlias;
          } else {
+           console.log(data);
            // if successful, bind success message to message
-           //$scope.message = data.message;
          }
       });
     }

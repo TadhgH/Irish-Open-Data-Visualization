@@ -9,44 +9,48 @@
 
 <div layout="row" id="contentRow" flex>
   <md-content id="content" flex>
-
-    <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
-    <h2>{{ul.selected.name}}</h2>
-
-    <div id="" flex>
-
-    <div layout="row">
-
-      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[0].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[0].typeValue)}" class="chartButtons"><span>Line</span></div>
-      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[1].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[1].typeValue)}" class="chartButtons"><span>Bar</span></div>
-      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[2].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[2].typeValue)}" class="chartButtons"><span>Column</span></div>
-      <div change-active-class ng-click="ul.setCurrentChart(ul.chartTypes[3].typeValue)" ng-class="{'activeChart': ul.isCurrentChart(ul.chartTypes[3].typeValue)}" class="chartButtons"><span>Pie</span></div>
-
-      <!--<ul class="unstyledCharts">
-        <li>Line</li>
-        <li>Bar</li>
-        <li>Column</li>
-        <li>Pie</li>
-      </ul>-->
-    </div>
     <br><br>
-    <div layout="row" id="chartdiv" g-chart flex></div>
+    <!--<md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>-->
+    <!--<h2 id="mainCntntH2">{{ul.selected.name}}</h2>-->
 
+
+    <div flex>
+      <md-card>
+        <div layout="row" class="mainCntntChrts">
+          <md-radio-group ng-model="data.group1">
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[0].typeValue)" value="Line" class="md-primary">Line</md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[1].typeValue)"value="Bar">Bar</md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[2].typeValue)"value="Column">Column</md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[3].typeValue)"value="Pie">Pie</md-radio-button>
+          </md-radio-group>
+        </div>
+      </md-card>
+
+
+      <br>
+      <md-card>
+        <div layout="row">
+          <div layout="column" id="chartdiv" g-chart flex></div>
+        </div>
+      </md-card>
     </div>
-    <br><br>
 
-    <div id="sectorButton" layout="row" layout-align="center center">
-      <md-button enter leave class="" ng-click="ul.decParams()" aria-label="Profile">
-            <md-icon md-svg-src="./assets/svg/ic_chevron_left_24px.svg"></md-icon>
-      </md-button>
+    <br>
 
-      <div id="sector">{{ul.sector}}</div>
+    <md-card>
+      <div id="sectorButton" layout="row" layout-align="center center">
+        <md-button class="" ng-click="ul.decParams()" aria-label="Profile">
+              <md-icon md-svg-src="./assets/svg/ic_chevron_left_24px.svg"></md-icon>
+        </md-button>
 
-      <md-button enter leave class="" ng-click="ul.incParams()" aria-label="Profile">
-            <md-icon md-svg-src="./assets/svg/ic_chevron_right_24px.svg"></md-icon>
-      </md-button>
+        <div id="sector">{{ul.sector}}</div>
 
-    </div>
+        <md-button class="" ng-click="ul.incParams()" aria-label="Profile">
+              <md-icon md-svg-src="./assets/svg/ic_chevron_right_24px.svg"></md-icon>
+        </md-button>
+      </div>
+    </md-card>
+
 
 
 

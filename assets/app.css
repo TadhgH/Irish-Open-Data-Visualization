@@ -8,6 +8,11 @@ html, body {
   position:relative;
 }
 
+a {
+  outline: 0;
+}
+
+
 select-data{
 
 }
@@ -46,6 +51,10 @@ div.chartButtonsClick{
   color: #C51162;
   margin-right: .8%;
 
+}
+
+div.mainCntntChrts{
+  text-align: center;
 }
 
 .activeChart{
@@ -121,6 +130,13 @@ md-content md-toolbar.mainBarLeft {
     display: none;
 }
 
+md-radio-group{
+  display: inline-flex;
+  outline: 0;
+  border: 0;
+  margin: 0 auto;
+}
+
 md-content{
   height:100%;
 }
@@ -145,8 +161,14 @@ md-sidenav  md-list {
 
 /* Primary content area */
 
+h2#mainCntntH2 {
+  margin-top: 4%;
+  margin-bottom: -4px;
+}
+
 #content {
   overflow: hidden;
+  text-align: center;
 }
 
 #content  {
@@ -210,6 +232,7 @@ md-button.menuBtn > md-icon {
   margin-left: 20px;
   margin-right: 16px;
   font-size: 20px;
+  text-align: center;
 }
 
 #sectorButton{
@@ -275,10 +298,25 @@ span.name {
 
 .emailContent{
   width: 65%;
+  margin: auto;
 }
 
-#emCnt{
+#emCntSend{
   width: 25%;
   float: right;
   text-align: center;
+}
+
+#emCntBack{
+  width: 10%;
+  float: left;
+}
+
+#emailUl{
+  list-style-type: none;
+  display: inline;
+}
+
+#bottomSheet {
+
 }

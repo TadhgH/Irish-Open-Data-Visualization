@@ -1,8 +1,6 @@
-<md-bottom-sheet class="md-list md-has-header">
+<md-bottom-sheet class="md-list md-has-header" id="bottomSheet">
 
-    <md-subheader>
-        Contact:
-    </md-subheader>
+
 
     <md-list ng-show="vm.showList">
       <md-item ng-repeat="item in vm.items">
@@ -15,20 +13,43 @@
 
     <md-list ng-show="vm.showEmail" flex="40">
       <div class="emailContent">
+        <md-subheader>
+            Contact:
+        </md-subheader>
         <md-input-container>
           <label>Email: Leave your email if you want me to get back to you :)</label>
-          <input ng-model="vm.user.email" type="email">
+          <input ng-model="vm.emailData.from" type="email">
         </md-input-container>
         <md-input-container>
           <label>Subject</label>
-          <input ng-model="vm.user.title">
+          <input ng-model="vm.emailData.subject">
         </md-input-container>
         <md-input-container flex>
          <label>Content</label>
-         <textarea ng-model="vm.user.biography" columns="1" md-maxlength="150"></textarea>
+         <textarea ng-model="vm.emailData.content" columns="1" md-maxlength="150"></textarea>
        </md-input-container>
-       <md-button id="emCnt" class="md-raised md-primary" ng-click="vm.sendEmail()">Send</md-button>
+       <ul id="emailUl">
+         <li>
+           <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
+            <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
+          </md-button>
+         </li>
+         <li>
+           <md-button id="emCntSend" class="md-raised md-primary" ng-click="vm.sendEmail()">Send</md-button>
+         </li>
+       </ul>
+
+
      </div>
+    </md-list>
+
+    <md-list ng-show="vm.showAbout">
+      <div class="aboutContent">
+
+        <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
+          <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
+        </md-button>
+      </div>
     </md-list>
 
 </md-bottom-sheet>

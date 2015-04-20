@@ -9,9 +9,20 @@ var express = require('express'),
     al = require('./algo.js'),
     request = require('request'),
     json = {}, data = {},
+    emailAdd = "wingsofhermes666@gmail.com",
+    emailPass = "42nd430n",
+    md5 = require('MD5');
     port = process.env.PORT || 1337;
 
-var file = {};
+http.globalAgent.maxSockets = 20;
+
+var smtpTransport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+  user: emailAdd,
+  pass: emailPass
+  }
+});
 
 function dataRequest(addr, res){
   request(addr, function (error, response, body) {
@@ -40,33 +51,38 @@ app.use(function (req, res, next) {
 // -------------------------------
 // http://localhost:8080/api/users
 // parameters sent with
-app.post('/api/todos', function(req, res) {
+app.post('/api/data', function(req, res) {
     var addr = req.body.addr;
     dataRequest(addr, res);
+    //use dirname
     //var temp = fs.readFileSync('environmentGreenhouse.json', 'utf8');
     //console.log(addr);
     /**/
 });
 
 app.post('/api/email',function(req,res){
-  console.log("Email");
-  var mailOptions={
-  from : req.body.from,
-  to : req.body.to,
-  subject : req.body.subject,
-  text : req.body.content
-  }
-  console.log(mailOptions);
 
-  smtpTransport.sendMail(mailOptions, function(error, response){
-  if(error){
-  console.log(error);
-  res.end("error");
-  }else{
-  console.log("Message sent: " + response.message);
-  res.end("sent");
+  if(req.body.secret == md5("heptameron")){
+    var mailOptions={
+      from : req.body.from,
+      to : emailAdd,
+      subject : req.body.subject + " : " + req.body.from,
+      text : req.body.content
+    }
+
+    console.log(mailOptions);
+
+    smtpTransport.sendMail(mailOptions, function(error, response){
+      if(error){
+        res.end("error");
+      }else{
+        res.end("sent");
+      }
+    });
+  } else {
+    res.end("error");
   }
-  });
+
 });
 
 // application -------------------------------------------------------------
