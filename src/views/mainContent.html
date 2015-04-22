@@ -3,25 +3,27 @@
     <md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show dataset List">
       <md-icon md-svg-icon="menu" ></md-icon>
     </md-button>
-    <h1>Open Data</h1>
+    <h1>Open Data Visualization</h1>
+    <md-button class="share" md-no-ink ng-click="ul.share($event)" aria-label="Share">
+      <md-icon md-svg-icon="share"></md-icon>
+    </md-button>
   </md-toolbar>
 </div>
 
 <div layout="row" id="contentRow" flex>
   <md-content id="content" flex>
     <br><br>
-    <!--<md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>-->
-    <!--<h2 id="mainCntntH2">{{ul.selected.name}}</h2>-->
 
+    <!--<h2 id="mainCntntH2">{{ul.selected.name}}</h2>-->
 
     <div flex>
       <md-card>
         <div layout="row" class="mainCntntChrts">
-          <md-radio-group ng-model="data.group1">
-            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[0].typeValue)" value="Line" class="md-primary">Line</md-radio-button>
-            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[1].typeValue)"value="Bar">Bar</md-radio-button>
-            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[2].typeValue)"value="Column">Column</md-radio-button>
-            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[3].typeValue)"value="Pie">Pie</md-radio-button>
+          <md-radio-group ng-model="ul.radio.group1">
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[0].typeValue)" value="Line"><span hide-sm>Line</span><span hide-gt-sm>L</span></md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[1].typeValue)"value="Bar"><span hide-sm>Bar</span><span hide-gt-sm>B</span></md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[2].typeValue)"value="Column"><span hide-sm>Column</span><span hide-gt-sm>C</span></md-radio-button>
+            <md-radio-button ng-click="ul.setCurrentChart(ul.chartTypes[3].typeValue)"value="Pie"><span hide-sm>Pie</span><span hide-gt-sm>P</span></md-radio-button>
           </md-radio-group>
         </div>
       </md-card>
@@ -51,14 +53,5 @@
       </div>
     </md-card>
 
-
-
-
-
-
-
-    <md-button class="share" md-no-ink ng-click="ul.share($event)" aria-label="Share">
-      <md-icon md-svg-icon="share"></md-icon>
-    </md-button>
   </md-content>
 </div>

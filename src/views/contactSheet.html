@@ -12,44 +12,51 @@
     </md-list>
 
     <md-list ng-show="vm.showEmail" flex="40">
-      <div class="emailContent">
-        <md-subheader>
-            Contact:
-        </md-subheader>
-        <md-input-container>
-          <label>Email: Leave your email if you want me to get back to you :)</label>
-          <input ng-model="vm.emailData.from" type="email">
-        </md-input-container>
-        <md-input-container>
-          <label>Subject</label>
-          <input ng-model="vm.emailData.subject">
-        </md-input-container>
-        <md-input-container flex>
-         <label>Content</label>
-         <textarea ng-model="vm.emailData.content" columns="1" md-maxlength="150"></textarea>
-       </md-input-container>
-       <ul id="emailUl">
-         <li>
-           <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
-            <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
-          </md-button>
-         </li>
-         <li>
-           <md-button id="emCntSend" class="md-raised md-primary" ng-click="vm.sendEmail()">Send</md-button>
-         </li>
-       </ul>
+      <form name="userForm" ng-submit="vm.sendEmail(userForm.$valid)" novalidate>
+        <div class="emailContent">
+          <md-subheader>
+              Contact:
+          </md-subheader>
+          <md-input-container>
+            <label>Email: Leave your email if you want me to get back to you :)</label>
+            <input ng-model="vm.emailData.from" type="email">
+          </md-input-container>
+          <md-input-container>
+            <label>Subject</label>
+            <input ng-model="vm.emailData.subject" required>
+          </md-input-container>
+          <md-input-container flex>
+           <label>Content</label>
+           <textarea ng-model="vm.emailData.content" columns="1" md-maxlength="150"></textarea>
+         </md-input-container>
+         <ul id="emailUl">
+           <li>
+             <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
+              <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
+            </md-button>
+           </li>
+           <li>
+             <md-button id="emCntSend" class="md-raised md-primary" type="submit">Send</md-button>
+           </li>
+         </ul>
 
 
-     </div>
+       </div>
+     </form>
     </md-list>
 
     <md-list ng-show="vm.showAbout">
       <div class="aboutContent">
-
-        <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
-          <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
-        </md-button>
+        <div class="emailContent">
+          <md-icon md-svg-icon="svg-1" class="avatar"></md-icon>
+          <Label>Open Data Visualization</Label>
+          <div>This is an application for visualizing data from the Irish Central Statistics Office, developed by Tadhg Hanrahan</div>
+          <md-button ng-click="vm.resetBottomSheet()" id="emCntBack" class="md-icon-button md-primary" aria-label="Back">
+            <md-icon md-svg-icon="assets/svg/ic_arrow_back_48px.svg"></md-icon>
+          </md-button>
+        </div>
       </div>
+
     </md-list>
 
 </md-bottom-sheet>

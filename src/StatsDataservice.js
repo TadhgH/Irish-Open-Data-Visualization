@@ -139,7 +139,6 @@
       for(var i = 0; i < arrays.length; i++){
         for (var j = x * time.length; count < time.length; j++) {
           if(arrays[i][j] == null){
-            console.log("his royal nullness");
             temp.push(0);
           } else {
             temp.push(arrays[i][j]);
@@ -188,8 +187,8 @@
 
     var color = this;
 
-    var red = ['#B71C1C', '#C62828', '#D32F2F', '#E53935', '#F44336', '#EF5350', '#E57373', '#EF9A9A', '#FFCDD2'];
-    var blu = ['#0D47A1', '#1565C0', '#1976D2', '#1E88E5', '#2196F3', '#42A5F5', '#64B5F6', '#90CAF9', '#BBDEFB'];
+    var red = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688'];
+    var blu = ['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E'];
     var colors = [red, blu];
     //var colors =
 
@@ -205,27 +204,11 @@
         i++;
       });
 
-      console.log(colray.length);
       if(colray.length > 1){
         colray = colray[0].concat(colray[1]);
       } else {
         colray = colray[0];
       }
-      //
-
-      console.log(colray);
-
-      /*if(b == null){
-        colr = _.take(red, r);
-        colb = null;
-        colray = [colr, colb];
-        return colray;
-      } else{
-        colr = _.take(red, r);
-        colb = _.take(blu, b);
-        colray = [colr, colb];
-        return colray;
-      }*/
 
       return colray;
     }
@@ -236,9 +219,6 @@
     var api = '/api/email';
 
     email.postEmail = function(emailData){
-      console.log("service");
-      console.log(emailData);
-      //add md5 secret
       $http.post(api, emailData).success(function(data){
         if(!data.success) {
            console.log(data);

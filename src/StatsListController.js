@@ -22,8 +22,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
   self.selectDataset = selectDataset;
   self.toggleList = toggledatasetsList;
   self.share = share;
-  self.isDatasetOne = isDatasetOne;
-  self.isDatasetTwo = isDatasetTwo;
   self.activeType = 'chartButtons';
   self.masterset = {};
   self.masterset.final = [];
@@ -38,6 +36,10 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
   //self.createChart = createChart;
   self.chartType = {};
   self.chart = {};
+
+  self.radio = {
+    group1 : 'Line'
+  };
 
   self.chartTypes = [
   { typeName: 'LineChart', typeValue: '1' },
@@ -61,10 +63,10 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
   self.selected = user[0].One[0];
   getStats(self.selected.addr);
 
-  //console.log(md5("message"));
   // *********************************
   // Internal methods
   // *********************************
+
   function setCurrentChart(chart){
     self.selectedChart = chart;
 
@@ -97,6 +99,7 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
   function getStats(addr){
    //var a = performance.now();
    statData.getStats(addr).then(function(res){
+     console.log(res);
      self.selected.data = res;
      createChart(res);
    }, function(err){
@@ -109,28 +112,16 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
     var master = [];
     var final = [];
     var sectoredStats = [];
-    var selectedSector = self.params; //this should be bound to a click event
+    var selectedSector = self.params;
     var colorPicker = [];
     var colors = [];
     var years = [];
     var i = 0;
-    /*if(self.checkSet == true){
-      self.masterset.dataset = data;
-    } else {
-
-      //define different protocols for processing different data types
-      console.log("wein here");
-      console.log(self.masterset.dataset);
-      console.log(data);
-      //self.masterset.dataset = data;
-    }*/
 
     self.paramsMax = data.sect.length;
-
     self.sector = data.sect[self.params];
-
     sectoredStats = sortData.sortSect(data.nums, selectedSector, data.t);
-    //master = data.mast.splice(data.mast.length-1, 1
+
     master = data.mast.slice();
     master.splice(master.length, 1);
     final.push(master);
@@ -141,20 +132,9 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
 
     if(self.selected.xaxis == 'year'){
       self.masterset.t = data.t;
-      //self.masterset.base = final;
 
     } else if(self.selected.xaxis == 'month'){
       final = yearify(final, self.masterset.t);
-
-      //self.masterset.merge = self.masterset.base;
-
-      //self.masterset.merge[0] = self.masterset.merge[0].concat(_.drop(data.mast));
-
-      /*for(i = 1; i < self.masterset.merge.length; i++){
-        console.log(final[i-1]);
-        self.masterset.merge[i] = self.masterset.merge[i].concat(final[i-1]);
-      }*/
-      console.log(final);
     }
 
     setMasterset(final, data.ds);
@@ -175,7 +155,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
 
   function yearify(data, year){
 
-    //var t0 = performance.now();
     var i = 0;
     var j = 0;
     var x = 0;
@@ -204,14 +183,12 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
         tempData[j] = 99999999999;
       }
     }
-    console.log(tempData);
-    console.log(data);
+
     //shud go through this array backwards then reverse result
     for(i=0;i<data.length;i++){
 
       if(data[i][0].indexOf(year[x]) > -1){
         for(j=0; j<data[i].length-1; j++){
-          //if j is in highs.add value to temp.add temp to tempData.clear temp.
           if(highs.indexOf(j)>-1){
             if(data[i][j+1] > tempData[j]){
               tempData[j] = data[i][j+1];
@@ -224,19 +201,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
             tempData[j] += data[i][j+1];
           }
         }
-        console.log(tempData);
-
-        /*
-        loop through data
-        if normal value add it
-        if high store in array
-        after for loop
-        Array.max = function( array ){
-            return Math.max.apply( Math, array );
-        };
-        */
-
-        //calcs here wrong
 
         if(i > 0 && i % 12 == 0){
           yearData.push(year[x]);
@@ -250,7 +214,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
           x++;
           master.push(yearData);
           yearData = [];
-          //tempData = Array.apply(null, new Array(data[0].length-1)).map(Number.prototype.valueOf,0);
           tempData = Array.apply(null, new Array(data[0].length-1)).map(Number.prototype.valueOf,0);
         }
       }
@@ -258,20 +221,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
 
     return master;
   }
-
-  /*else if(highs.indexOf(j)>-1){
-      var sum=0;
-      var i=tempData[j].length;
-      while(i--)sum += tempData[j][i];
-      tempData[j] = sum/tempData[j].length;
-      yearData.push(tempData[j]);
-  } else if(lows.indexOf(j)>-1){
-      var sum=0;
-      var i=tempData[j].length;
-      while(i--)sum += tempData[j][i];
-      tempData[j] = sum/tempData[j].length;
-      yearData.push(tempData[j]);
-  }*/
 
   function colorPick(data){
     var array = [];
@@ -294,14 +243,12 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
     var chart = {};
     chart.data = data;
     chart.options = options;
-    //console.log(chart);
 
     chart.type = find.typeValue;
     chart.typeName = find.typeName;
 
     self.chartType = self.chartTypes[0];
     self.chart = chart;
-
   }
 
   function toggledatasetsList() {
@@ -312,28 +259,14 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
   * Select the current dataset
   */
 
-  function isDatasetOne(dataset){
-    self.checkSet = true;
-    self.masterset.datasets = [];
-    selectDataset(dataset);
-  }
-
-  function isDatasetTwo(dataset){
-    self.checkSet = false;
-    selectDataset(dataset);
-  }
-
   function selectDataset(dataset){
-    //console.log(self.datasets[0].Two);
     self.params = 0;
     self.selected = angular.isNumber(dataset) ? $scope.datasets[dataset] : dataset;
     if(self.checkSet == true && self.selected.data != null){
-      console.log("using stored dataset");
       createChart(self.selected.data);
     } else if(self.checkSet == false && self.selected.data != null){
-      //do stuff related to 2nd dataset having already been acquired
+
     } else {
-      console.log("http");
       getStats(self.selected.addr);
     }
 
@@ -371,8 +304,6 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
         { name: 'About'     , icon: 'about' }
       ];
       this.performAction = function(action) {
-        console.log("action");
-        console.log(action);
         if(action.name == "Email"){
           this.showList = false;
           this.showEmail = true;
@@ -386,11 +317,13 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
         }
       };
 
-      this.sendEmail = function(){
-        console.log("emailData");
-        console.log(this.emailData);
-        this.emailData.secret = md5.createHash("heptameron");
-        emailService.postEmail(this.emailData);
+      this.sendEmail = function(isValid){
+
+        if(isValid) {
+          this.emailData.secret = md5.createHash("heptameron");
+          emailService.postEmail(this.emailData);
+        } else {
+        }
       }
 
       this.resetBottomSheet = function(){

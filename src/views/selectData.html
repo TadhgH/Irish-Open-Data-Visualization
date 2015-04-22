@@ -14,13 +14,14 @@
 
     <md-list class="datasets">
       <md-item ng-repeat="it in ul.datasets[0].One">
-          <md-button ng-click="ul.isDatasetOne(it)" ng-class="{'selected' : it === ul.selected }">
+          <md-button ng-click="ul.selectDataset(it)" ng-class="{'selected' : it === ul.selected }">
             {{it.name}}
           </md-button>
       </md-item>
     </md-list>
   </div>
 
+  <!--
   <div class="listTwo">
     <md-toolbar class="md-theme-light divide">
       <h1 class="md-toolbar-tools">
@@ -30,12 +31,10 @@
 
     <md-list class="datasets">
       <md-item ng-repeat="it in ul.datasets[0].Two">
-          <md-button ng-click="ul.isDatasetTwo(it)" ng-class="{'selected' : it === ul.selected }">
+          <md-button ng-click="ul.selectDataset(it)" ng-class="{'selected' : it === ul.selected }">
             {{it.name}}
           </md-button>
       </md-item>
     </md-list>
-  </div>
-
-
+  </div>-->
 </md-sidenav>

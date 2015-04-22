@@ -45,7 +45,6 @@
 				}
 
 				if(typeof chart.draw === 'undefined'){
-				   console.log("chart.draw is undefined");
 				} else {
 					chart.draw($scope.ul.chart.data, $scope.ul.chart.options);
 				}
@@ -72,35 +71,15 @@
 		}
 	})
 
-	/*.directive('changeActiveClass', function(){
-		return {
-			restrict: 'A',
-			link: function ($scope, element, attrs) {
-				element.bind("click", function(){
-					console.log("we in here");
-					if(element.hasClass("chartButtonsClick")){
-						console.log("has");
-						console.log(element.parent().children().find("div"));
-						element.removeClass("chartButtonsClick");
-					}
-					else{
-						element.addClass("chartButtonsClick");
-					}
-				});
-			}
-		}
-	})*/;
-/*	.directive('changeActiveClass', function(){
-		return {
-			restrict: 'A',
-			link: function(scope, element, attrs){
-				element.bind("click", function(){
-				console.log("we in here");
-				element.toggleClass("chartButtonsClick");
-				}
-			}
-		}
-	})
-				//scope.$apply(attrs.leave);
-			})*/
+	.directive('resize', function ($window) {
+    return function (scope, element) {
+      var w = angular.element($window);
+
+      w.bind('resize', function () {
+				scope.ul.selectDataset(scope.ul.selected);
+        scope.$apply();
+      });
+    }
+	});
+
 })();

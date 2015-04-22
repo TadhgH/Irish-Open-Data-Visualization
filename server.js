@@ -70,8 +70,6 @@ app.post('/api/email',function(req,res){
       text : req.body.content
     }
 
-    console.log(mailOptions);
-
     smtpTransport.sendMail(mailOptions, function(error, response){
       if(error){
         res.end("error");
