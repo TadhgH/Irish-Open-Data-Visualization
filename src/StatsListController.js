@@ -320,6 +320,7 @@ function StatsListController(md5, menuData, statData, sortData, color, $mdSidena
       this.sendEmail = function(isValid){
 
         if(isValid) {
+          console.log("isValid");
           this.emailData.secret = md5.createHash("heptameron");
           emailService.postEmail(this.emailData);
         } else {
